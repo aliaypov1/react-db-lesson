@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../BASE_URL/BASE_URL';
 import { Avatar, Card } from 'antd';
+import { Rate } from 'antd';
 const { Meta } = Card;
 
 const Product = () => {
@@ -10,9 +11,16 @@ const Product = () => {
         axios.get(`${BASE_URL}/product`)
             .then((res) => { setResult(res.data) })
     }, [])
+    
+  const [value, setValue] = useState(1);
+  const desc = ['вали', 'сваливай', 'ладно', 'ок', 'оставайся'];
     console.log(result)
     return (
         <div>
+             <span>
+      <Rate tooltips={desc} onChange={setValue} value={value} />
+      {value ? <span className="ant-rate-text">{desc[value - 1]}</span> : ''}
+    </span>
             {
                 result.map(item =>
                     <div className="cont" style={{maxWidth:"300px", margin:'0 auto', display:'flex', flexWrap:'wrap' }}>
@@ -51,10 +59,13 @@ const Product = () => {
                                 avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />}
                                 title={item.title}
                                 description={item.desc}
+                                price={item.price}
                             />
                         </Card>
                         </div>
+                        
                     </div>
+                    
 
                 )
             }
